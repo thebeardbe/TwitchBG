@@ -1,0 +1,42 @@
+/**
+ * @name Frequency Spectrum
+ * @description <p>Visualize the frequency spectrum of live audio input.</p>
+ * <p><em><span class="small"> To run this example locally, you will need the
+ * <a href="http://p5js.org/reference/#/libraries/p5.sound">p5.sound library</a>
+ * and a running <a href="https://github.com/processing/p5.js/wiki/Local-server">local server</a>.</span></em></p>
+ */
+var mic, fft;
+
+function setup() {
+   createCanvas(1920,1080);
+   noFill();
+   colorMode(HSB);
+   angleMode(DEGREES);
+
+   mic = new p5.AudioIn();
+   mic.start();
+   fft = new p5.FFT();
+   fft.setInput(mic);
+}
+
+function draw() {
+   background(0);
+
+   var spectrum = fft.analyze();
+  
+  noStroke();
+  translate(width / 2, height / 2 );
+  //beginShape();
+  for (var i = 0; i < spectrum.length; i++) {
+	var angle = map(-i, 0, spectrum.length, 0, 360);
+	var mic = spectrum[i];
+    	var r = map(-mic5, 75, 6, 45, 60);
+    	//fill(i, 255, 255);
+    	var x = r * cos(angle);
+    	var y = r * sin(angle);
+    	stroke(i/3, 255, 255);
+    	line(3, 3, x, y);
+  }
+  
+  // endShape();
+}
